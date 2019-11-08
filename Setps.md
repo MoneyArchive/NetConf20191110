@@ -122,3 +122,14 @@
 17. 複製 bottom-pipe，命名為 top-pipe
     1.  RotationZ => 180
     2.  調整位置與兩個pipe之間的間隔
+
+18. 新增 Empty Object，命名為 pipe
+    1.  PosX PosY => 0
+    2.  將 bottom-pipe 與 top-pipe 移到其底下
+    3.  就可以透過移動 pipe 而同時移動上下 pipe
+    4.  於 pipe 底下新增 Empty Object，命名為 score-zone
+        1.  Add Componement => Box Collider 2D
+            1.  PosX PosY => 0
+            2.  調整 SizeX SizeY 符合通過大小
+            3.  調整 OffsetY 對應到 ground
+            4.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
