@@ -416,4 +416,17 @@
 30. 執行起來看看
 
 31. 發現重置後角度會往下掉，修正方法
-    1.  
+    1.  於 TapController.cs 中
+        1. 加入參數
+        ``` csharp
+            private GameManager gameManager;
+        ```
+        2. 更新 Start，最後一行
+        ``` csharp
+            gameManager = GameManager.Instance;
+        ```
+        3. 更新 Update，最前面
+        ``` csharp
+            if (gameManager.GameOver == true)
+                return;
+        ```
