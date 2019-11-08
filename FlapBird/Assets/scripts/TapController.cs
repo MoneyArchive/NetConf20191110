@@ -5,6 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TapController : MonoBehaviour
 {
+    public delegate void PlayerDelegate();
+    public static event PlayerDelegate OnPlayerDied;
+    public static event PlayerDelegate OnPlayerScored;
+
     public float tapForce = 250;
     public float tiltSmooth = 2;
     public Vector3 startPos;
@@ -14,15 +18,21 @@ public class TapController : MonoBehaviour
     private Quaternion downRotation;
     private Quaternion forwardRotation;
 
+    private GameManager gameManager;
+
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
+        gameManager = GameManager.Instance;
     }
 
     void Update()
     {
+        if (gameManager.GameOver == true)
+            return;
+
         // 0: left, 1: right
         if (Input.GetMouseButtonDown(0))
         {
@@ -40,6 +50,7 @@ public class TapController : MonoBehaviour
         if (collider.gameObject.tag == "ScoreZone")
         {
             // register score event
+            OnPlayerScored();
             // play sound
         }
 
@@ -47,7 +58,32 @@ public class TapController : MonoBehaviour
         {
             rigidbody.simulated = false;
             // register a dead event
+            OnPlayerDied();
             // play a sound
         }
+    }
+
+    void OnEnable()
+    {
+        GameManager.OnGameStarted += OnGameStarted;
+        GameManager.OnGameOverConfirmed += OnGameOverConfirmed;
+    }
+
+    void OnDisable()
+    {
+        GameManager.OnGameStarted -= OnGameStarted;
+        GameManager.OnGameOverConfirmed -= OnGameOverConfirmed;
+    }
+
+    private void OnGameOverConfirmed()
+    {
+        transform.localPosition = startPos;
+        transform.rotation = Quaternion.identity;
+    }
+
+    private void OnGameStarted()
+    {
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.simulated = true;
     }
 }

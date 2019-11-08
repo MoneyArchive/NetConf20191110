@@ -189,7 +189,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 12283626}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 740811778}
+        m_MethodName: ConfirmGameOver
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &12283626
@@ -426,6 +437,7 @@ GameObject:
   - component: {fileID: 740811777}
   - component: {fileID: 740811776}
   - component: {fileID: 740811775}
+  - component: {fileID: 740811778}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -497,6 +509,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740811778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740811774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a6a7af0ee09ba4c981c13bbbbd73a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPage: {fileID: 453237586}
+  overPage: {fileID: 119505419}
+  countdownPage: {fileID: 2117161868}
+  scoreText: {fileID: 1719731365}
 --- !u!1 &984168650
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +602,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 984168653}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 740811778}
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &984168653
@@ -976,6 +1015,7 @@ GameObject:
   - component: {fileID: 1743820628}
   - component: {fileID: 1743820630}
   - component: {fileID: 1743820629}
+  - component: {fileID: 1743820631}
   m_Layer: 5
   m_Name: CountdownText
   m_TagString: Untagged
@@ -1044,6 +1084,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743820627}
   m_CullTransparentMesh: 0
+--- !u!114 &1743820631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743820627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c92e90e42821384db10d7bff014058a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1939274064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,9 +1401,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce77d38863d6ef488ca42d3657d98d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tapForce: 200
-  tiltSmooth: 5
-  startPos: {x: 0, y: 0, z: 0}
+  tapForce: 250
+  tiltSmooth: 4
+  startPos: {x: -1.51, y: 0.71, z: 0}
 --- !u!1 &2117161868
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,7 +1455,7 @@ PrefabInstance:
     - target: {fileID: 930373406552922343, guid: 6320fb93e7602f044b6f7ca85e33ac0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.13
       objectReference: {fileID: 0}
     - target: {fileID: 930373406552922343, guid: 6320fb93e7602f044b6f7ca85e33ac0b,
         type: 3}

@@ -198,3 +198,222 @@
             }
         }
     ```
+
+23. 新增 C# 檔案 => TapController
+    1.  點選開啟
+    2.  加入初始化參數
+    ``` csharp
+        // usually use for scene switch
+        public static GameManager Instance;
+
+        public delegate void GameDelegate();
+
+        public static event GameDelegate OnGameStarted;
+        public static event GameDelegate OnGameOverConfirmed;
+
+        public GameObject startPage;
+        public GameObject overPage;
+        public GameObject countdownPage;
+        public Text scoreText;
+        public bool GameOver => isGameOver;
+
+        private int score = 0;
+        private bool isGameOver = false;
+    ```
+    4.  加入 PageState 列舉
+    ``` csharp
+        public enum PageState
+        {
+            None,
+            Start,
+            GameOver,
+            Countdown
+        }
+    ```
+    5.  加入 Awake 方法
+    ``` csharp
+        void Awake()
+        {
+            Instance = this;
+        }
+    ```
+    6. 加入 SetPageState 方法
+    ``` csharp
+        void SetPageState(PageState state)
+        {
+            switch (state)
+            {
+                case PageState.None:
+                    startPage.SetActive(false);
+                    overPage.SetActive(false);
+                    countdownPage.SetActive(false);
+                    break;
+                case PageState.Start:
+                    startPage.SetActive(true);
+                    overPage.SetActive(false);
+                    countdownPage.SetActive(false);
+                    break;
+                case PageState.GameOver:
+                    startPage.SetActive(false);
+                    overPage.SetActive(true);
+                    countdownPage.SetActive(false);
+                    break;
+                case PageState.Countdown:
+                    startPage.SetActive(false);
+                    overPage.SetActive(false);
+                    countdownPage.SetActive(true);
+                    break;
+            }
+        }
+    ```
+    7. 加入 ConfirmGameOver 與 StartGame 方法
+    ``` csharp
+        public void ConfirmGameOver()
+        {
+            // activated when replay is click
+            OnGameOverConfirmed();
+            scoreText.text = "0";
+            SetPageState(PageState.Start);
+        }
+
+        public void StartGame()
+        {
+            // activated when play is click
+            SetPageState(PageState.Countdown);
+        }
+    ```
+
+24. 於 MainCamera 
+    1.  Add Componement => GameManager
+    2.  將各個參數選好，如 StartPage, OverPage 等等
+    3.  CountdownText: Add Componement => CountdownText
+
+25. 於 StartPage
+    1.  新增 OnClick 方法，先設定參考 MainCamera，再選擇 GameManager => StartGame
+
+26. 新增 C# 檔案 => CountdownText
+    1.  class add Attribute
+    ``` csharp
+        [RequireComponent(typeof(Text))]
+    ```
+    1.  加入初始化參數
+    ``` csharp
+        public delegate void CountdownFinish();
+        public static event CountdownFinish OnCountdownFinished;
+
+        private Text countdown;
+    ```
+    1. 加入 ConfirmGameOver 與 StartGame 方法
+    ``` csharp
+        // call everytime when set page active
+        void OnEnable()
+        {
+            countdown = GetComponent<Text>();
+            countdown.text = "3";
+            StartCoroutine("Countdown");
+        }
+
+        IEnumerator Countdown()
+        {
+            int count = 3;
+            for (int i = 0; i < count; i++)
+            {
+                countdown.text = (count - i).ToString();
+                yield return new WaitForSeconds(1);
+            }
+
+            OnCountdownFinished();
+        }
+    ```
+
+27. 於 GameManager.cs
+    1.  
+    ``` csharp
+        void OnEnable()
+        {
+            CountdownText.OnCountdownFinished += OnCountdownFinished;
+        }
+
+        void OnDisable()
+        {
+            CountdownText.OnCountdownFinished -= OnCountdownFinished;
+        }
+
+        void OnCountdownFinished()
+        {
+            SetPageState(PageState.None);
+            OnGameStarted();
+            score = 0;
+            isGameOver = false;
+        }
+    ```
+
+28. 於 TapController.cs
+    1.  參數加入
+    ``` csharp
+        public delegate void PlayerDelegate();
+        public static event PlayerDelegate OnPlayerDied;
+        public static event PlayerDelegate OnPlayerScored;
+    ```
+    2. OnTriggerEnter2D 加入 `OnPlayerScored` and `OnPlayerDied`
+    ``` csharp
+        void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (collider.gameObject.tag == "ScoreZone")
+            {
+                // register score event
+                OnPlayerScored();
+                // play sound
+            }
+
+            if (collider.gameObject.tag == "DeadZone")
+            {
+                rigidbody.simulated = false;
+                // register a dead event
+                OnPlayerDied();
+                // play a sound
+            }
+        }
+    ```
+    3. 加入 OnEnable 與 OnDisable 方法
+    4. 加入 OnGameOverConfirmed 與 OnGameStarted 方法
+
+29. 於 GameManager.cs
+    1.  更新 OnEnable and OnDisable 加入與移除 OnPlayerScored and OnPlayerDied 事件
+    ``` csharp
+        void OnEnable()
+        {
+            CountdownText.OnCountdownFinished += OnCountdownFinished;
+            TapController.OnPlayerScored += OnPlayerScored;
+            TapController.OnPlayerDied += OnPlayerDied;
+        }
+
+        void OnDisable()
+        {
+            CountdownText.OnCountdownFinished -= OnCountdownFinished;
+            TapController.OnPlayerScored -= OnPlayerScored;
+            TapController.OnPlayerDied -= OnPlayerDied;
+        }
+    ```
+    1. 加入 OnPlayerDied and OnPlayerScored 方法
+    ``` csharp
+        private void OnPlayerDied()
+        {
+            isGameOver = true;
+            int savedScore = PlayerPrefs.GetInt("HighScore");
+            if (score > savedScore)
+                PlayerPrefs.SetInt("HighScore", score);
+            SetPageState(PageState.GameOver);
+        }
+
+        private void OnPlayerScored()
+        {
+            score++;
+            scoreText.text = score.ToString();
+        }
+    ```
+
+30. 執行起來看看
+
+31. 發現重置後角度會往下掉，修正方法
+    1.  
