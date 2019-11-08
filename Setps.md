@@ -37,6 +37,39 @@
       2. Order in Layer => 30
    4. Bird
       1. PosX PosY => 0
-      2. ScaleX ScaleY => .75
+      2. ScaleX ScaleY => .55
       3. Order in Layer => 40
       4. Color => 隨意挑一個顏色
+
+6. 針對 ScoreText 調整 Camera Anchor
+
+7. 編輯 StartPage
+   1. 加入 UI => Button，命名為 PlayButton
+      1. 寬高 => 100
+      2. 設定 Source Image => play.png
+      3. 調整位置到畫面下方
+      4. 展開 Button => Text，刪除 Text
+   2. 點選 StartPage
+      1. 於 Rect Transformation 點選 Anchor
+      2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面
+      3. 點選 PlayButton 針對它調整 Camera Anchor
+      4. PlayButton 勾選 Preserve Aspect
+   3. 加入 UI => Text，命名為 PlayButton
+      1. Paragraph => Alignment => all center
+      2. Color => White
+      3. Text => HighScore: 0
+      4. Font Size => 60
+      5. Font => FFFFORWA
+      6. Width => 582
+      7. Height => 178
+      8. Best fit => 勾選
+      9. 調整位置到 開始按鈕上方
+      10. 調整 Camera Anchor
+
+8. 編輯 OverPage
+    1. 於 Rect Transformation 點選 Anchor
+    2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面 
+
+9.  編輯 CountdownPage
+    1. 於 Rect Transformation 點選 Anchor
+    2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面
