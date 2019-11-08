@@ -133,3 +133,7 @@
             2.  調整 SizeX SizeY 符合通過大小
             3.  調整 OffsetY 對應到 ground
             4.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
+
+19. 新增兩個 TAG: DeadZone、ScoreZone
+    1.  設定 ground, bottom-pipe, top-pipe => DeadZone
+    2.  設定 score-zone => ScoreZone
