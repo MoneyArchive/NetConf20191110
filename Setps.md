@@ -37,7 +37,7 @@
       2. Order in Layer => 30
    4. Bird
       1. PosX PosY => 0
-      2. ScaleX ScaleY => .55
+      2. ScaleX ScaleY => .3
       3. Order in Layer => 40
       4. Color => 隨意挑一個顏色
 
@@ -88,3 +88,19 @@
     2. 複製 ScoreText，改名為 CountdownText
     3. PosX PosY => 0
     4. 調整 Camera Anchor
+
+10. 新增一個 Empty Object，命名為: Environment
+    1.  將 Background, Cloud, Star, Bird 放到其底下
+
+11. 執行看看目前結果
+
+12. 針對 bird
+    1.  Add Componement => Rigidbody 2D
+        1.  Constraints => 勾選 Z
+
+13. 再執行一次，可以看到鳥掉下去了
+
+14. 針對 bird
+    1.  Add Componement => Circle Collider 2D
+        1.  Raduis => 0.74
+        2.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
