@@ -68,8 +68,23 @@
 
 8. 編輯 OverPage
     1. 於 Rect Transformation 點選 Anchor
-    2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面 
+       1. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面 
+    2. 從 StartPage 複製 Button 與 Text；Button 命名為 ReplayButton
+    3. ReplayButton 與 Text
+       1. 按下 Shift，Reset camera anchor 到中間
+    4. ReplayButton
+       1. PosX PosY => 0
+       2. Source Image => replay.png
+       3. 調整 Camera Anchor
+    5. Test
+       1. 移到 ReplayButton 上方
+       2. Text => Score: 0
+       3. Width => 387
+       4. 調整 Camera Anchor
 
 9.  編輯 CountdownPage
     1. 於 Rect Transformation 點選 Anchor
-    2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面
+       1. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面
+    2. 複製 ScoreText，改名為 CountdownText
+    3. PosX PosY => 0
+    4. 調整 Camera Anchor
