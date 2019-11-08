@@ -137,3 +137,64 @@
 19. 新增兩個 TAG: DeadZone、ScoreZone
     1.  設定 ground, bottom-pipe, top-pipe => DeadZone
     2.  設定 score-zone => ScoreZone
+
+20. 新增資料夾: prefabs
+    1.  將 pipe, clouds, star 拉進去
+
+21. 新增資料夾: scripts
+    1.  新增 C# 檔案 => TapController
+    2.  點選開啟
+
+22. TapController
+    1.  class add Attribute
+    ``` csharp
+        [RequireComponent(typeof(Rigidbody2D))]
+    ```
+    2.  加入參數宣告
+    ``` csharp
+        public float tapForce = 10;
+        public float tiltSmooth = 5;
+        public Vector3 startPos;
+
+        private Rigidbody2D rigidbody;
+        // fancy form of rotation
+        private Quaternion downRotation;
+        private Quaternion forwardRotation;
+    ```
+    3. 於 Start 方法內加入
+    ``` csharp
+        rigidbody = GetComponent<Rigidbody2D>();
+        downRotation = Quaternion.Euler(0, 0, -90);
+        forwardRotation = Quaternion.Euler(0, 0, 35);
+    ```
+    4. 於 Update 方法內加入
+    ``` csharp
+        // 0: left, 1: right
+        if (Input.GetMouseButtonDown(0))
+        {
+            transform.rotation = forwardRotation;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.AddForce(Vector2.up * tapForce, ForceMode2D.Force);
+        }
+
+        // source to target value in certain time
+        transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
+    ```
+    5. 加入 OnTriggerEnter2D 方法
+    ``` csharp
+        void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (collider.gameObject.tag == "ScoreZone")
+            {
+                // register score event
+                // play sound
+            }
+
+            if (collider.gameObject.tag == "DeadZone")
+            {
+                rigidbody.simulated = false;
+                // register a dead event
+                // play a sound
+            }
+        }
+    ```
