@@ -6,3 +6,15 @@
     2. 將 Main Camera 拖到 Render Camera
     3. Canvas Scaler => UI Sacle Mode => Scale With Screen Size
     4. Canvas Scaler => Screen Match Mode => Expand
+
+3. 於 Canvas 加入 Object
+    1. StartPage => EmptyObject
+    2. OverPage => EmptyObject
+    3. CountdownPage => EmptyObject
+    4. ScoreText => Text
+       1. 寬高設為 100
+       2. Text default value => 0
+       3. Best fit => checked；max size => 100
+       4. color => ffffff
+       5. Pos Y => 600
+       6. Font => FFFFORWA
