@@ -104,3 +104,21 @@
     1.  Add Componement => Circle Collider 2D
         1.  Raduis => 0.74
         2.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
+
+15. 將 ground 加入到 Environment 中 (注意 Z Index)
+    1.  Order in Layer => 70
+    2.  Add Componement => Box Collider 2D
+        1.  調整 SizeY 符合 Ground 大小
+        2.  調整 OffsetY 對應到 ground
+        3.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
+
+16. 將 pipe 加入到 Environment 中 (注意 Z Index)，命名為 bottom-pipe
+    1.  Order in Layer => 60
+    2.  Add Componement => Box Collider 2D
+        1.  調整 SizeY 符合 Ground 大小
+        2.  調整 OffsetY 對應到 ground
+        3.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
+
+17. 複製 bottom-pipe，命名為 top-pipe
+    1.  RotationZ => 180
+    2.  調整位置與兩個pipe之間的間隔
