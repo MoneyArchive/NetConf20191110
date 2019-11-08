@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: ce19eed7f54fc4449b5947c39d214d08
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Segoe UI
+  fontNames:
+  - Segoe UI
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b1d50f000812ee7429114e686dec6859, type: 3}
+  - {fileID: 12800000, guid: 1ca62b30c5eeb644095755119f15500e, type: 3}
+  - {fileID: 12800000, guid: d1684450f7ef270469be40c7f9be225d, type: 3}
+  - {fileID: 12800000, guid: 1924999008146834d9c748e98badc355, type: 3}
+  - {fileID: 12800000, guid: 8f0ea7d0fed072a40afe56e355f44684, type: 3}
+  - {fileID: 12800000, guid: 34509ef0e4404cf48961560084460ac1, type: 3}
+  - {fileID: 12800000, guid: b6af11c182c585d48b12a491ae70a747, type: 3}
+  - {fileID: 12800000, guid: 99f4def2b9dea0840849bf4e6ef21b94, type: 3}
+  - {fileID: 12800000, guid: 82caceb379570f14da9a77be54af584d, type: 3}
+  - {fileID: 12800000, guid: a11ebfe39b75aba44b462b466ea6849a, type: 3}
+  - {fileID: 12800000, guid: 3cfd0e3411c761e4484fdccc66219956, type: 3}
+  - {fileID: 12800000, guid: 3a0f2ce5bf1ff814fb131b72eeca06fc, type: 3}
+  - {fileID: 12800000, guid: 8dc48226edbcfb24295d5ca9bce299e5, type: 3}
+  - {fileID: 12800000, guid: 18ab3b773111a3a448e61953930839eb, type: 3}
+  - {fileID: 12800000, guid: 6ab9b0f7a87eb8349b6a9b94d504084f, type: 3}
+  - {fileID: 12800000, guid: 60722219d53941c43959830fe92ea1ce, type: 3}
+  - {fileID: 12800000, guid: 1af153a90e89e0e4e94fbac5fe5994ca, type: 3}
+  - {fileID: 12800000, guid: 5662354aa38e55448bc87028b15b2482, type: 3}
+  - {fileID: 12800000, guid: cf94a91b5434b82478dace7db5fa7c40, type: 3}
+  - {fileID: 12800000, guid: a6a82bbb4e20c7448b27b08b028675c5, type: 3}
+  - {fileID: 12800000, guid: 9e91c21e71eb3794f8e647f296bf40da, type: 3}
+  - {fileID: 12800000, guid: 90926e1f5f703b94ebf80c8ecd8237d2, type: 3}
+  - {fileID: 12800000, guid: 2040ef5fc1ff76140af307a3027ca6c9, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
