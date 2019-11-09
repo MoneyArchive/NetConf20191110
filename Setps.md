@@ -296,14 +296,14 @@
     ``` csharp
         [RequireComponent(typeof(Text))]
     ```
-    1.  加入初始化參數
+    2.  加入初始化參數
     ``` csharp
         public delegate void CountdownFinish();
         public static event CountdownFinish OnCountdownFinished;
 
         private Text countdown;
     ```
-    1. 加入 ConfirmGameOver 與 StartGame 方法
+    3. 加入 ConfirmGameOver 與 StartGame 方法
     ``` csharp
         // call everytime when set page active
         void OnEnable()
@@ -430,3 +430,28 @@
             if (gameManager.GameOver == true)
                 return;
         ```
+32. 加入 HighScoreText.cs
+    1.  class add Attribute
+    ``` csharp
+        [RequireComponent(typeof(Text))]
+    ```
+    2.  加入初始化參數
+    ``` csharp
+        private Text highScore;
+    ```
+    3. 加入 OnEnable 方法
+    ``` csharp
+        void OnEnable()
+        {
+            highScore = GetComponent<Text>();
+            highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
+        }
+    ```
+    4. 將 HighScoreText.cs 指定給 StartPage 的 Text 當作 Componment
+
+33. 接下來就是要讓場景可以開始移動了，使用 Parallaxer
+    1. 新增 C# 檔案 => Parallaxer
+    2. 於 Canvas 下新增 Empty Object: Clouds, Stars, Pipes
+       1. 將 Parallaxer 作為 Componment 加入到上面的三個物件中
+    3. 編輯 Parallaxer.cs
+       1. 
