@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,8 +10,8 @@ public class TapController : MonoBehaviour
     public static event PlayerDelegate OnPlayerDied;
     public static event PlayerDelegate OnPlayerScored;
 
-    public float tapForce = 250;
-    public float tiltSmooth = 2;
+    public float tapForce = 10;
+    public float tiltSmooth = 5;
     public Vector3 startPos;
 
     private Rigidbody2D rigidbody;
@@ -20,21 +21,24 @@ public class TapController : MonoBehaviour
 
     private GameManager gameManager;
 
+    // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
         gameManager = GameManager.Instance;
+        rigidbody.simulated = false;
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (gameManager.GameOver == true)
             return;
 
         // 0: left, 1: right
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.anyKeyDown)
         {
             transform.rotation = forwardRotation;
             rigidbody.velocity = Vector3.zero;

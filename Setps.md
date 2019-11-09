@@ -9,11 +9,11 @@
     3. Canvas Scaler => UI Sacle Mode => Scale With Screen Size
     4. Canvas Scaler => Screen Match Mode => Expand
 
-3. 於 Canvas 加入 Object
+3. 於 Canvas 加入 Empty Object
     1. StartPage => EmptyObject
     2. OverPage => EmptyObject
     3. CountdownPage => EmptyObject
-    4. ScoreText => Text
+    4. ScoreText => UI =>Text
        1. 寬高設為 100
        2. Text default value => 0
        3. Best fit => checked；max size => 100
@@ -25,14 +25,14 @@
 4. 切到 Scene 頁籤
    1. 示範 3D Camera 效果
 
-5. 增加物件
+5. 透過拖曳圖片增加物件
    1. Background
       1. PosX PosY => 0
       2. Order in Layer => 10
-   2. Clouds
+   2. Cloud
       1. PosX PosY => 0
       2. Order in Layer => 20
-   3. Stars
+   3. Star
       1. PosX PosY => 0
       2. Order in Layer => 30
    4. Bird
@@ -45,16 +45,17 @@
 
 7. 編輯 StartPage
    1. 加入 UI => Button，命名為 PlayButton
-      1. 寬高 => 100
+      1. 寬高 => 200
       2. 設定 Source Image => play.png
       3. 調整位置到畫面下方
       4. 展開 Button => Text，刪除 Text
+      5. 調整 Camera Anchor
    2. 點選 StartPage
       1. 於 Rect Transformation 點選 Anchor
       2. 按住 Alt + Shift，點選最右下角的選項，這樣就會將 Camera Anchor 自動設為全畫面
       3. 點選 PlayButton 針對它調整 Camera Anchor
       4. PlayButton 勾選 Preserve Aspect
-   3. 加入 UI => Text，命名為 PlayButton
+   3. 加入 UI => Text
       1. Paragraph => Alignment => all center
       2. Color => White
       3. Text => HighScore: 0
@@ -76,7 +77,7 @@
        1. PosX PosY => 0
        2. Source Image => replay.png
        3. 調整 Camera Anchor
-    5. Test
+    5. Text
        1. 移到 ReplayButton 上方
        2. Text => Score: 0
        3. Width => 387
@@ -112,9 +113,10 @@
         2.  調整 OffsetY 對應到 ground
         3.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
 
-16. 將 pipe 加入到 Environment 中 (注意 Z Index)，命名為 bottom-pipe
+16. 將 pipe 加入到 root 中 (注意 Z Index)，命名為 bottom-pipe
     1.  Order in Layer => 60
-    2.  Add Componement => Box Collider 2D
+    2.  Scale= > .4
+    3.  Add Componement => Box Collider 2D
         1.  調整 SizeY 符合 Ground 大小
         2.  調整 OffsetY 對應到 ground
         3.  IsTrigger => 勾選；代表物件互相可以通過彼此，而非撞到彼此
@@ -150,7 +152,7 @@
     ``` csharp
         [RequireComponent(typeof(Rigidbody2D))]
     ```
-    2.  加入參數宣告
+    1.  加入參數宣告
     ``` csharp
         public float tapForce = 10;
         public float tiltSmooth = 5;
@@ -161,13 +163,13 @@
         private Quaternion downRotation;
         private Quaternion forwardRotation;
     ```
-    3. 於 Start 方法內加入
+    1. 於 Start 方法內加入
     ``` csharp
         rigidbody = GetComponent<Rigidbody2D>();
         downRotation = Quaternion.Euler(0, 0, -90);
         forwardRotation = Quaternion.Euler(0, 0, 35);
     ```
-    4. 於 Update 方法內加入
+    1. 於 Update 方法內加入
     ``` csharp
         // 0: left, 1: right
         if (Input.GetMouseButtonDown(0))
@@ -180,7 +182,7 @@
         // source to target value in certain time
         transform.rotation = Quaternion.Lerp(transform.rotation, downRotation, tiltSmooth * Time.deltaTime);
     ```
-    5. 加入 OnTriggerEnter2D 方法
+    1. 加入 OnTriggerEnter2D 方法
     ``` csharp
         void OnTriggerEnter2D(Collider2D collider)
         {
@@ -199,7 +201,7 @@
         }
     ```
 
-23. 新增 C# 檔案 => TapController
+23. 新增 C# 檔案 => GameManager.cs
     1.  點選開啟
     2.  加入初始化參數
     ``` csharp
@@ -216,11 +218,12 @@
         public GameObject countdownPage;
         public Text scoreText;
         public bool GameOver => isGameOver;
+        public int Score => score;
 
         private int score = 0;
         private bool isGameOver = false;
     ```
-    4.  加入 PageState 列舉
+    1.  加入 PageState 列舉
     ``` csharp
         public enum PageState
         {
@@ -230,14 +233,14 @@
             Countdown
         }
     ```
-    5.  加入 Awake 方法
+    1.  加入 Awake 方法
     ``` csharp
         void Awake()
         {
             Instance = this;
         }
     ```
-    6. 加入 SetPageState 方法
+    1. 加入 SetPageState 方法
     ``` csharp
         void SetPageState(PageState state)
         {
@@ -266,7 +269,7 @@
             }
         }
     ```
-    7. 加入 ConfirmGameOver 與 StartGame 方法
+    1. 加入 ConfirmGameOver 與 StartGame 方法
     ``` csharp
         public void ConfirmGameOver()
         {
@@ -288,22 +291,25 @@
     2.  將各個參數選好，如 StartPage, OverPage 等等
     3.  CountdownText: Add Componement => CountdownText
 
-25. 於 StartPage
+25. 於 StartPage.PlayButton
     1.  新增 OnClick 方法，先設定參考 MainCamera，再選擇 GameManager => StartGame
 
-26. 新增 C# 檔案 => CountdownText
+26. 於 OverPage.ReplayButton
+    1.  新增 OnClick 方法，先設定參考 MainCamera，再選擇 GameManager => ConfirmGameOver
+
+27. 新增 C# 檔案 => CountdownText
     1.  class add Attribute
     ``` csharp
         [RequireComponent(typeof(Text))]
     ```
-    2.  加入初始化參數
+    1.  加入初始化參數
     ``` csharp
         public delegate void CountdownFinish();
         public static event CountdownFinish OnCountdownFinished;
 
         private Text countdown;
     ```
-    3. 加入 ConfirmGameOver 與 StartGame 方法
+    1. 加入 ConfirmGameOver 與 StartGame 方法
     ``` csharp
         // call everytime when set page active
         void OnEnable()
@@ -326,7 +332,7 @@
         }
     ```
 
-27. 於 GameManager.cs
+28. 於 GameManager.cs
     1.  
     ``` csharp
         void OnEnable()
@@ -348,14 +354,14 @@
         }
     ```
 
-28. 於 TapController.cs
+29. 於 TapController.cs
     1.  參數加入
     ``` csharp
         public delegate void PlayerDelegate();
         public static event PlayerDelegate OnPlayerDied;
         public static event PlayerDelegate OnPlayerScored;
     ```
-    2. OnTriggerEnter2D 加入 `OnPlayerScored` and `OnPlayerDied`
+    1. OnTriggerEnter2D 加入呼叫 `OnPlayerScored` and `OnPlayerDied` 
     ``` csharp
         void OnTriggerEnter2D(Collider2D collider)
         {
@@ -375,10 +381,36 @@
             }
         }
     ```
-    3. 加入 OnEnable 與 OnDisable 方法
-    4. 加入 OnGameOverConfirmed 與 OnGameStarted 方法
+    1. 加入 OnEnable 與 OnDisable 方法
+    ``` csharp
+        void OnEnable()
+        {
+            GameManager.OnGameStarted += OnGameStarted;
+            GameManager.OnGameOverConfirmed += OnGameOverConfirmed;
+        }
 
-29. 於 GameManager.cs
+        void OnDisable()
+        {
+            GameManager.OnGameStarted -= OnGameStarted;
+            GameManager.OnGameOverConfirmed -= OnGameOverConfirmed;
+        }
+    ```
+    1. 加入 OnGameOverConfirmed 與 OnGameStarted 方法
+    ``` csharp
+        private void OnGameOverConfirmed()
+        {
+            transform.localPosition = startPos;
+            transform.rotation = Quaternion.identity;
+        }
+
+        private void OnGameStarted()
+        {
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.simulated = true;
+        }
+    ```
+
+30. 於 GameManager.cs
     1.  更新 OnEnable and OnDisable 加入與移除 OnPlayerScored and OnPlayerDied 事件
     ``` csharp
         void OnEnable()
@@ -412,46 +444,256 @@
             scoreText.text = score.ToString();
         }
     ```
+    
+31. 將 TapController 指定給 Bird
+    1.  TapForce: 250
+    2.  TiltSmooth: 2
 
-30. 執行起來看看
+32. 將 CountdownText 指定給 CountdownPage.CountdownText
 
-31. 發現重置後角度會往下掉，修正方法
+33. 執行起來看看
+
+34. 發現重置後角度會往下掉，修正方法
     1.  於 TapController.cs 中
         1. 加入參數
         ``` csharp
             private GameManager gameManager;
         ```
-        2. 更新 Start，最後一行
+        1. 更新 Start，最後一行
         ``` csharp
             gameManager = GameManager.Instance;
         ```
-        3. 更新 Update，最前面
+        1. 更新 Update，最前面
         ``` csharp
             if (gameManager.GameOver == true)
                 return;
         ```
-32. 加入 HighScoreText.cs
+
+35. 執行起來看看
+
+36. 加入 HighScoreText.cs
     1.  class add Attribute
     ``` csharp
         [RequireComponent(typeof(Text))]
     ```
-    2.  加入初始化參數
+    1.  加入初始化參數
     ``` csharp
         private Text highScore;
     ```
-    3. 加入 OnEnable 方法
+    1. 加入 OnEnable 方法
     ``` csharp
         void OnEnable()
         {
             highScore = GetComponent<Text>();
-            highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
+            highScore.text =  "HighScore: "+PlayerPrefs.GetInt("HighScore").ToString();
         }
     ```
-    4. 將 HighScoreText.cs 指定給 StartPage 的 Text 當作 Componment
+    1. 將 HighScoreText.cs 指定給 StartPage 的 Text 當作 Componment
 
-33. 接下來就是要讓場景可以開始移動了，使用 Parallaxer
-    1. 新增 C# 檔案 => Parallaxer
-    2. 於 Canvas 下新增 Empty Object: Clouds, Stars, Pipes
+37. 接下來就是要讓場景可以開始移動了，使用 Parallaxer
+    1. 於 Environment 下新增三個 Empty Object: Clouds, Stars, Pipes
        1. 將 Parallaxer 作為 Componment 加入到上面的三個物件中
+    2. 新增 C# 檔案 => Parallaxer
     3. 編輯 Parallaxer.cs
-       1. 
+        1.  加入一個 class
+        ``` csharp
+            class PoolObject
+            {
+                public Transform transform;
+                public bool IsInUse;
+
+                public PoolObject(Transform t)
+                {
+                    transform = t;
+                }
+
+                public void SetUse()
+                {
+                    IsInUse = true;
+                }
+
+                public void SetUnUse()
+                {
+                    IsInUse = false;
+                }
+            }
+        ```
+        1. 加入一個 struct
+        ``` csharp
+            // for pipe Y gap
+            [Serializable]
+            public struct YSpawnRange
+            {
+                public float MinY;
+                public float MaxY;
+            }
+        ```
+        1. 加入初始化參數
+        ``` csharp
+            public GameObject Prefab;
+            public int PoolSize;
+            public float ShiftSpeed;
+            public float SpawnRate;
+            public Vector3 DefaultSpawnPos;
+            public bool IsSpawnImmediate;
+            // particle prewarm
+            public Vector3 ImmediateSpawnPos;
+            // fit screen ratio
+            public Vector2 TargetAspectRatio;
+            public YSpawnRange YSpawnRange;
+
+            private float spawnTimer;
+            private float targetAspect;
+            private PoolObject[] poolObjects;
+            private GameManager game;
+        ```
+        1. 取代 Parallaxer 內所有方法
+        ``` csharp
+            void Awake()
+            {
+                Configure();
+            }
+
+            void Start()
+            {
+                game = GameManager.Instance;
+            }
+
+            void OnEnable()
+            {
+                GameManager.OnGameOverConfirmed += OnGameOverConfirmed;
+            }
+
+            void OnDisable()
+            {
+                GameManager.OnGameOverConfirmed -= OnGameOverConfirmed;
+            }
+
+            void OnGameOverConfirmed()
+            {
+                for (int i = 0; i < poolObjects.Length; i++)
+                {
+                    poolObjects[i].SetUnUse();
+                    poolObjects[i].transform.position = Vector3.one * 1000;
+                }
+                Configure();
+            }
+
+            void Update()
+            {
+                if (game.GameOver) return;
+
+                Shift();
+                spawnTimer += Time.deltaTime;
+                if (spawnTimer > SpawnRate)
+                {
+                    Spawn();
+                    spawnTimer = 0;
+                }
+            }
+
+            void Configure()
+            {
+                //spawning pool objects
+                targetAspect = TargetAspectRatio.x / TargetAspectRatio.y;
+                poolObjects = new PoolObject[PoolSize];
+                for (int i = 0; i < poolObjects.Length; i++)
+                {
+                    GameObject go = Instantiate(Prefab) as GameObject;
+                    Transform t = go.transform;
+                    t.SetParent(transform);
+                    t.position = Vector3.one * 1000;
+                    poolObjects[i] = new PoolObject(t);
+                }
+
+                if (IsSpawnImmediate)
+                {
+                    SpawnImmediate();
+                }
+            }
+
+            void Spawn()
+            {
+                //moving pool objects into place
+                Transform t = GetPoolObject();
+                if (t == null) return;
+                Vector3 pos = Vector3.zero;
+                pos.y = Random.Range(YSpawnRange.MinY, YSpawnRange.MaxY);
+                pos.x = (DefaultSpawnPos.x * Camera.main.aspect) / targetAspect;
+                t.position = pos;
+            }
+
+            void SpawnImmediate()
+            {
+                Transform t = GetPoolObject();
+                if (t == null) return;
+                Vector3 pos = Vector3.zero;
+                pos.y = Random.Range(YSpawnRange.MinY, YSpawnRange.MaxY);
+                pos.x = (ImmediateSpawnPos.x * Camera.main.aspect) / targetAspect;
+                t.position = pos;
+                Spawn();
+            }
+
+            void Shift()
+            {
+                //loop through pool objects 
+                //moving them
+                //discarding them as they go off screen
+                for (int i = 0; i < poolObjects.Length; i++)
+                {
+                    poolObjects[i].transform.position += Vector3.right * ShiftSpeed * Time.deltaTime;
+                    CheckDisposeObject(poolObjects[i]);
+                }
+            }
+
+            void CheckDisposeObject(PoolObject poolObject)
+            {
+                //place objects off screen
+                if (poolObject.transform.position.x < (-DefaultSpawnPos.x * Camera.main.aspect) / targetAspect)
+                {
+                    poolObject.SetUnUse();
+                    poolObject.transform.position = Vector3.one * 1000;
+                }
+            }
+
+            Transform GetPoolObject()
+            {
+                //retrieving first available pool object
+                for (int i = 0; i < poolObjects.Length; i++)
+                {
+                    if (!poolObjects[i].IsInUse)
+                    {
+                        poolObjects[i].SetUse();
+                        return poolObjects[i].transform;
+                    }
+                }
+                return null;
+            }
+        ```
+
+38. Pipes Parallaxer 設定
+    1.  Prefab: Pipe
+    2.  PoolSize: 10
+    3.  ShiftSpeed: -1.25
+    4.  Spawn Rate: 3
+    5.  Default Spawn Pos: 3.58
+    6.  MinY: -1.1
+    7.  MaxY: 1.36
+
+39. Clouds Parallaxer 設定
+    1.  Prefab: Pipe
+    2.  PoolSize: 10
+    3.  ShiftSpeed: -1.25
+    4.  Spawn Rate: 3
+    5.  Default Spawn Pos: 3.58
+    6.  MinY: -1.1
+    7.  MaxY: 1.36
+
+40. Stars Parallaxer 設定
+    1.  Prefab: Pipe
+    2.  PoolSize: 10
+    3.  ShiftSpeed: -1.25
+    4.  Spawn Rate: 3
+    5.  Default Spawn Pos: 3.58
+    6.  MinY: -1.1
+    7.  MaxY: 1.36

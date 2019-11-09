@@ -11,13 +11,13 @@ public class HighScoreText : MonoBehaviour
     void OnEnable()
     {
         highScore = GetComponent<Text>();
-        highScore.text = PlayerPrefs.GetInt("HighScore").ToString();
+        highScore.text = "HighScore: "+PlayerPrefs.GetInt("HighScore").ToString();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame

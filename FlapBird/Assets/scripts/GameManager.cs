@@ -18,9 +18,10 @@ public class GameManager : MonoBehaviour
     public GameObject countdownPage;
     public Text scoreText;
     public bool GameOver => isGameOver;
+    public int Score => score;
 
     private int score = 0;
-    private bool isGameOver = false;
+    private bool isGameOver = true;
 
     public enum PageState
     {
@@ -33,43 +34,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-    }
-
-    void OnEnable()
-    {
-        CountdownText.OnCountdownFinished += OnCountdownFinished;
-        TapController.OnPlayerScored += OnPlayerScored;
-        TapController.OnPlayerDied += OnPlayerDied;
-    }
-
-    void OnDisable()
-    {
-        CountdownText.OnCountdownFinished -= OnCountdownFinished;
-        TapController.OnPlayerScored -= OnPlayerScored;
-        TapController.OnPlayerDied -= OnPlayerDied;
-    }
-
-    private void OnPlayerDied()
-    {
-        isGameOver = true;
-        int savedScore = PlayerPrefs.GetInt("HighScore");
-        if (score > savedScore)
-            PlayerPrefs.SetInt("HighScore", score);
-        SetPageState(PageState.GameOver);
-    }
-
-    private void OnPlayerScored()
-    {
-        score++;
-        scoreText.text = score.ToString();
-    }
-
-    void OnCountdownFinished()
-    {
-        SetPageState(PageState.None);
-        OnGameStarted();
-        score = 0;
-        isGameOver = false;
     }
 
     void SetPageState(PageState state)
@@ -113,15 +77,52 @@ public class GameManager : MonoBehaviour
         SetPageState(PageState.Countdown);
     }
 
+    void OnEnable()
+    {
+        CountdownText.OnCountdownFinished += OnCountdownFinished;
+        TapController.OnPlayerScored += OnPlayerScored;
+        TapController.OnPlayerDied += OnPlayerDied;
+    }
+
+    void OnDisable()
+    {
+        CountdownText.OnCountdownFinished -= OnCountdownFinished;
+        TapController.OnPlayerScored -= OnPlayerScored;
+        TapController.OnPlayerDied -= OnPlayerDied;
+    }
+
+    private void OnPlayerDied()
+    {
+        isGameOver = true;
+        int savedScore = PlayerPrefs.GetInt("HighScore");
+        if (score > savedScore)
+            PlayerPrefs.SetInt("HighScore", score);
+        SetPageState(PageState.GameOver);
+    }
+
+    private void OnPlayerScored()
+    {
+        score++;
+        scoreText.text = score.ToString();
+    }
+
+    void OnCountdownFinished()
+    {
+        SetPageState(PageState.None);
+        OnGameStarted();
+        score = 0;
+        isGameOver = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 }
